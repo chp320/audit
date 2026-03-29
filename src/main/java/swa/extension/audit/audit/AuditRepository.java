@@ -1,4 +1,4 @@
-package swa.extension.audit;
+package swa.extension.audit.audit;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

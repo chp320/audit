@@ -1,4 +1,4 @@
-package swa.extension.audit;
+package swa.extension.audit.audit;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,4 +1,4 @@
-package swa.extension.audit;
+package swa.extension.audit.audit;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

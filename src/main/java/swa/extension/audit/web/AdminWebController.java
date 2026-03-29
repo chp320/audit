@@ -1,8 +1,10 @@
-package swa.extension.audit;
+package swa.extension.audit.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import swa.extension.audit.audit.AuditRepository;
 
 @Controller
 public class AdminWebController {
