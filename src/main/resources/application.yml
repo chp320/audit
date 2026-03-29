@@ -1,0 +1,22 @@
+#spring.application.name=audit
+spring:
+  applicatoin: 
+    name: audit
+  datasource: 
+    # (for RHEL)
+    # url: jdbc:h2:file:/var/lib/h2/gitlab_audit;AUTO_SERVER=TRUE
+    # (for dev)
+    url: jdbc:h2:file:c:/study/temp/gitlab_audit;AUTO_SERVER=TRUE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: 
+  jpa: 
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+server:
+  port: 8080

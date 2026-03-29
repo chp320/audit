@@ -1,0 +1,100 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.12'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'swa.extension'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    // 집에서 라이브러리 라이브러리를 다운로드 받기 위해 현재는 반드시 활성화!
+    // 원격 저장소에서 로컬 폴더(C:\Users\user\.gradle\caches)에 저장함
+    mavenCentral()
+    
+    // 요기는.. 회사로 USB를 가져간 후에는 위 mavenCentral()을 주석 처리하고 아래 주석을 해제!
+    // 폐쇄망에서는 원격 저장소를 바라볼 수 없으니 로컬 저장소인 프로젝트/libs 를 바라봄!
+    /*
+    flatDir {
+        dirs 'libs'
+    }
+    */
+}
+
+dependencies {
+    // 1. 필수 웹 및 프론트엔드/DB 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    runtimeOnly 'com.h2database:h2'
+    
+    // 2. Lombok (컴파일 및 애노테이션 프로세서 모두 필요)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // 3. 코어 프레임워크
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator' // 모니터링/헬스체크
+    
+    // 4. 레거시 데이터 연동
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    
+    // 5. 상용/오픈소스 DB 드라이버 풀세트
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    runtimeOnly 'com.ibm.db2:jcc'
+    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // 6. 엔터프라이즈 필수 유틸리티 (엑셀, JSON, 문자열 처리 등)
+    implementation 'org.apache.poi:poi-ooxml:5.2.5' // 엑셀 다운로드/업로드
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'commons-io:commons-io:2.15.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.guava:guava:33.0.0-jre'
+    
+    // 7. API 문서화 (Swagger UI - Spring Boot 3.x 전용)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    
+    // 8. 기타 외부 API 통신 (Apache HttpClient)
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
+    
+    // 9. 테스트 관련 풀세트
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// 실행뿐만 아니라 컴파일, 테스트에 필요한 모든 의존성을 긁어모아 libs 폴더로 추출
+task copyDependencies(type: Copy) {
+	// 내가 추가로 작성한 커스텀 태스트(copyDependencies)가 'Gradle Tasks'에 노출되지 않기 때문에 
+	// 커스텀 태스트 노출을 위해서 신규 그룹 생성함
+	// 로컬PC 내 .gradle 캐시에 저장된 라이브러리 중 dependencies에 정의된 라이브러리를 내부 libs 폴더로 복사
+	group = 'custom build'
+    description = '의존성 라이브러리를 기본 .gradle 디렉토리에서 libs 하위로 모두 복사합니다.'
+    
+    from configurations.compileClasspath
+    from configurations.runtimeClasspath
+    from configurations.testCompileClasspath
+    from configurations.testRuntimeClasspath
+    into 'libs'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // 중복 파일 복사 방지
+}

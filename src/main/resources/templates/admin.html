@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GitLab 미접속 계정 관리자 패널</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>GitLab 계정 정리 감사(Audit) 로그</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>실행 시각</th>
+                <th>GitLab ID</th>
+                <th>사용자명</th>
+                <th>마지막 접속일</th>
+                <th>LDAP 존재 여부</th>
+                <th>삭제 대상 여부</th>
+                <th>실제 삭제 실행</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="audit : ${audits}">
+                <td th:text="${audit.executionTime}"></td>
+                <td th:text="${audit.gitlabId}"></td>
+                <td th:text="${audit.username}"></td>
+                <td th:text="${audit.lastActivityOn}"></td>
+                <td th:text="${audit.ldapExists}"></td>
+                <td th:text="${audit.deleteTarget}"></td>
+                <td th:text="${audit.deleteExecuted}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
