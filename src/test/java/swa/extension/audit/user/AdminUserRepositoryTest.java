@@ -1,4 +1,4 @@
-package swa.extension.audit;
+package swa.extension.audit.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
