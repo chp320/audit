@@ -2,7 +2,13 @@
 
 ## 프로그램 설명
 * Gitlab에 생성된 계정이 이미 만료(퇴사, 철수 등)되었지만 목록에 남아있어 불필요 계정은 정리 필요
-* Jenkins에서 계정 정리 job을 주기적으로 수행
+* Jenkins에서 계정 정리 job을 주기적으로 수행하고, 어드민페이지에서 조회
+
+## 시스템 구조
+* client: Jenkins 계정 정리 Job
+* Server: Audit 어드민 (SpringBoot + embeded tomcat + SpringSecurity)
+* 화면: Thymeleaf
+* DB: H2
 
 ### Jenkins 계정 정리 JOB
 * 배경
@@ -27,6 +33,12 @@
 * 결론
   - Jenkins는 REST API를 호출해서 데이터 저장, SpringBoot는 H2 저장, 어드민 페이지 제공
 
+### Audit 어드민
+* 배경
+  - SpringBoot 기반으로 Gitlab 불필요 계정 정리 작업에 대한 결과 저장 및 조회 기능 제공
+* 작업 상세
+  - 어드민 화면 접근 시 id/pw 통한 로그인
+  
 ## 개발 환경
 * Project: Gradle
 * Language: Java 17 (with SpringBoot)
@@ -35,6 +47,7 @@
   - Thymeleaf (HTML 렌더링 - 프론트엔드)
   - Spring Data JPA (H2 ORM처리)
   - H2 Database
+
   
 ## 빌드 및 실행 방법
 ### 빌드

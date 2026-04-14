@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>계정 관리 - 어드민 시스템</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .form-section { background: #eee; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>계정 관리</h1>
+    
+    <div class="form-section">
+        <h3>새 계정 생성</h3>
+        <form th:action="@{/admin/accounts/create}" method="post">
+            <input type="text" name="username" placeholder="아이디" required>
+            <input type="password" name="password" placeholder="비밀번호" required>
+            <select name="role">
+                <option value="ROLE_ADMIN">관리자(ADMIN)</option>
+                <option value="ROLE_USER">사용자(USER)</option>
+            </select>
+            <button type="submit">생성</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>아이디</th>
+                <th>역할</th>
+                <th>관리</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="account : ${accounts}">
+                <td th:text="${account.id}">1</td>
+                <td th:text="${account.username}">admin</td>
+                <td th:text="${account.role}">ROLE_ADMIN</td>
+                <td>
+                    <form th:action="@{/admin/accounts/delete/{id}(id=${account.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                        <button type="submit" style="color: red;">삭제</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{/admin}">대시보드로 돌아가기</a>
+</body>
+</html>
