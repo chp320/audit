@@ -17,15 +17,12 @@ import swa.extension.audit.config.SecurityConfig;
 @RequestMapping("/admin/accounts")
 public class AdminAccountController {
 
-    private final SecurityConfig securityConfig;
-
 	private final AdminUserRepository adminUserRepository;
 	private final PasswordEncoder passwordEncoder;
 	
-	public AdminAccountController(AdminUserRepository adminUserRepository, PasswordEncoder passwordEncoder, SecurityConfig securityConfig) {
+	public AdminAccountController(AdminUserRepository adminUserRepository, PasswordEncoder passwordEncoder) {
 		this.adminUserRepository = adminUserRepository;
 		this.passwordEncoder = passwordEncoder;
-		this.securityConfig = securityConfig;
 	}
 	
 	// 계정 목록 조회
