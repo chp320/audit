@@ -2,74 +2,93 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>계정 관리 - 어드민 시스템</title>
+    <title>관리자 계정 관리</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
         
-        /* 상단 네비게이션 바 스타일 */
-        .header { display: flex; justify-content: space-between; align-items: center; background-color: #333; color: white; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; }
-        .header .user-info { display: flex; align-items: center; gap: 15px; }
-        .btn-logout { background-color: #d9534f; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-        .btn-logout:hover { background-color: #c9302c; }
-
-        /* 기존 테이블 및 폼 스타일 유지 */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .form-section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd; }
+        /* 네비게이션 바 스타일 (audit.html과 동일) */
+        .navbar { background-color: #333; overflow: hidden; padding: 14px 20px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .navbar a { color: #f2f2f2; text-decoration: none; padding: 10px; font-weight: bold; }
+        .navbar a:hover { background-color: #ddd; color: black; border-radius: 4px; }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .logout-btn { background-color: #f44336; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .logout-btn:hover { background-color: #d32f2f; }
+        
+        /* 본문 및 테이블 스타일 */
+        .content-box { margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        
+        /* 버튼 스타일 */
+        .submit-btn { padding: 6px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .submit-btn:hover { background-color: #45a049; }
+        .delete-btn { background-color: #ff9800; color: white; border: none; padding: 6px 10px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .delete-btn:hover { background-color: #e68a00; }
+        .delete-btn:disabled { background-color: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
-    
-    <div class="header">
-        <div>
-            <strong>어드민 시스템</strong>
+
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="/admin/audit">감사 이력 조회 (메인)</a>
+            <a href="/admin/accounts">관리자 계정 관리</a>
         </div>
-        <div class="user-info">
-            <span>환영합니다, <b th:text="${currentUsername}">관리자</b>님!</span>
-            
+        <div class="nav-right">
+            <span>환영합니다, <b th:text="${currentUsername != null ? currentUsername : '관리자'}"></b>님</span>
             <form th:action="@{/logout}" method="post" style="margin: 0;">
-                <button type="submit" class="btn-logout">로그아웃</button>
+                <button type="submit" class="logout-btn">로그아웃</button>
             </form>
         </div>
     </div>
 
-    <h1>계정 관리</h1>
-    
-    <div class="form-section">
-        <h3>새 계정 생성</h3>
-        <form th:action="@{/admin/accounts/create}" method="post">
-            <input type="text" name="username" placeholder="아이디" required>
-            <input type="password" name="password" placeholder="비밀번호" required>
-            <select name="role">
-                <option value="ROLE_ADMIN">관리자(ADMIN)</option>
-                <option value="ROLE_USER">사용자(USER)</option>
+    <h2>관리자 계정 관리</h2>
+
+    <div class="content-box">
+        <h3 style="margin-top: 0;">신규 관리자 등록</h3>
+        <form action="/admin/accounts" method="post">
+            <label for="username"><b>아이디: </b></label>
+            <input type="text" id="username" name="username" required style="padding: 6px; margin-right: 15px;">
+            
+            <label for="password"><b>비밀번호: </b></label>
+            <input type="password" id="password" name="password" required style="padding: 6px; margin-right: 15px;">
+            
+            <label for="role"><b>권한: </b></label>
+            <select id="role" name="role" style="padding: 6px; margin-right: 15px;">
+                <option value="ROLE_ADMIN">최고 관리자 (ADMIN)</option>
+                <option value="ROLE_USER">일반 사용자 (USER)</option>
             </select>
-            <button type="submit">생성</button>
+            
+            <button type="submit" class="submit-btn">계정 생성</button>
         </form>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>아이디</th>
-                <th>역할</th>
-                <th>관리</th>
+                <th>No (ID)</th>
+                <th>계정명 (Username)</th>
+                <th>권한 (Role)</th>
+                <th>계정 관리</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="account : ${accounts}">
-                <td th:text="${account.id}">1</td>
-                <td th:text="${account.username}">admin</td>
-                <td th:text="${account.role}">ROLE_ADMIN</td>
+            <tr th:each="user : ${accounts}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.role}"></td>
                 <td>
-                    <form th:action="@{/admin/accounts/delete/{id}(id=${account.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                        <button type="submit" style="color: red; background: none; border: none; cursor: pointer; font-weight: bold;">삭제</button>
+                    <form th:action="@{/admin/accounts/delete/{id}(id=${user.id})}" method="post" style="margin: 0;" onsubmit="return confirm('이 계정을 정말 삭제하시겠습니까?');">
+                        <button type="submit" class="delete-btn" th:disabled="${user.username == currentUsername}">삭제</button>
                     </form>
                 </td>
             </tr>
+            <tr th:if="${#lists.isEmpty(accounts)}">
+                <td colspan="4" style="padding: 30px; color: #666;">등록된 관리자 계정이 없습니다.</td>
+            </tr>
         </tbody>
     </table>
+
 </body>
 </html>
