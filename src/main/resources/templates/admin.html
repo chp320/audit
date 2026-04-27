@@ -26,13 +26,14 @@
         </thead>
         <tbody>
             <tr th:each="audit : ${audits}">
-                <td th:text="${audit.executionTime}"></td>
+                <td th:text="${audit.executionDate}"></td>
                 <td th:text="${audit.gitlabId}"></td>
                 <td th:text="${audit.username}"></td>
                 <td th:text="${audit.lastActivityOn}"></td>
                 <td th:text="${audit.ldapExists}"></td>
                 <td th:text="${audit.deleteTarget}"></td>
                 <td th:text="${audit.deleteExecuted}"></td>
+				<td th:text="${#temporals.format(audit.createAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
             </tr>
         </tbody>
     </table>

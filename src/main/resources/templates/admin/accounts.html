@@ -4,13 +4,36 @@
     <meta charset="UTF-8">
     <title>계정 관리 - 어드민 시스템</title>
     <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9; }
+        
+        /* 상단 네비게이션 바 스타일 */
+        .header { display: flex; justify-content: space-between; align-items: center; background-color: #333; color: white; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; }
+        .header .user-info { display: flex; align-items: center; gap: 15px; }
+        .btn-logout { background-color: #d9534f; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+        .btn-logout:hover { background-color: #c9302c; }
+
+        /* 기존 테이블 및 폼 스타일 유지 */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #f4f4f4; }
-        .form-section { background: #eee; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .form-section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
+    
+    <div class="header">
+        <div>
+            <strong>어드민 시스템</strong>
+        </div>
+        <div class="user-info">
+            <span>환영합니다, <b th:text="${currentUsername}">관리자</b>님!</span>
+            
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-logout">로그아웃</button>
+            </form>
+        </div>
+    </div>
+
     <h1>계정 관리</h1>
     
     <div class="form-section">
@@ -42,13 +65,11 @@
                 <td th:text="${account.role}">ROLE_ADMIN</td>
                 <td>
                     <form th:action="@{/admin/accounts/delete/{id}(id=${account.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                        <button type="submit" style="color: red;">삭제</button>
+                        <button type="submit" style="color: red; background: none; border: none; cursor: pointer; font-weight: bold;">삭제</button>
                     </form>
                 </td>
             </tr>
         </tbody>
     </table>
-    <br>
-    <a th:href="@{/admin}">대시보드로 돌아가기</a>
 </body>
 </html>

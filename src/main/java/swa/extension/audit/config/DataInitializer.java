@@ -35,7 +35,7 @@ public class DataInitializer implements CommandLineRunner {
 			defaultAdmin.setRole("ROLE_ADMIN");
 			
 			adminUserRepository.save(defaultAdmin);
-			System.out.println("===== 초기 관리자 계정 생성 (id: admin) =====");
+			System.out.println("===== 초기 관리자 계정 생성 (admin / admin123!) =====");
 		}
 	}
 }
