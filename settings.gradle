@@ -1,1 +1,15 @@
+// 2026.04.27 spring boot 플러그인 취득 경로 지정 (내부 nexus)
+/*
+pluginManagement {
+	repositories {
+		// 외부 플러그인 저장소 차단
+		//gradlePluginPortal()
+		
+		maven {
+		    url "http://nexus.ss.local:38080/repository/maven-safe-repo/"
+		    allowInsecureProtocol = true
+		}
+	}
+}
+*/
 rootProject.name = 'audit'

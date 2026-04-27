@@ -22,7 +22,21 @@ configurations {
 repositories {
     // 집에서 라이브러리 라이브러리를 다운로드 받기 위해 현재는 반드시 활성화!
     // 원격 저장소에서 로컬 폴더(C:\Users\user\.gradle\caches)에 저장함
+    // 2026.04.27 외부 저장소 주석 처리
     mavenCentral()
+    
+    // 2026.04.27 사내 nexus 바라보도록 설정
+    /*
+    url "http://nexus.ss.local:38080/repository/maven-safe-repo/"
+    allowInsecureProtocol = true
+    */
+    // 접근 제어 적용 시 추가
+    /*
+    credentials {
+    	username 'bxmadm'
+    	password ''
+    }
+    */
     
     // 요기는.. 회사로 USB를 가져간 후에는 위 mavenCentral()을 주석 처리하고 아래 주석을 해제!
     // 폐쇄망에서는 원격 저장소를 바라볼 수 없으니 로컬 저장소인 프로젝트/libs 를 바라봄!
