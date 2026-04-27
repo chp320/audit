@@ -9,6 +9,9 @@ public class AdminUserRequest {
 	private String password;
 	private String role;
 	
+	// 기본 생성자
+	public AdminUserRequest() {}
+	
 	// getter & setter
 	public String getUsername() {
 		return username;
