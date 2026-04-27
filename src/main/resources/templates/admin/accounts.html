@@ -33,7 +33,7 @@
     <div class="navbar">
         <div class="nav-left">
             <a href="/admin/audit">감사 이력 조회 (메인)</a>
-            <a href="/admin/accounts">관리자 계정 관리</a>
+            <a href="/admin/accounts" sec:authorize="hasRole('ADMIN')">관리자 계정 관리</a>
         </div>
         <div class="nav-right">
             <span>환영합니다, <b th:text="${currentUsername != null ? currentUsername : '관리자'}"></b>님</span>

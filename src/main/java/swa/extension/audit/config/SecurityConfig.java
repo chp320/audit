@@ -44,7 +44,11 @@ public class SecurityConfig {
 				.invalidateHttpSession(true)					// 로그아웃 시 사용자 세션 모두 삭제 (세션 하이재킹 회피 목적)
 				.deleteCookies("JSESSIONID")					// 인증 쿠키 삭제
 				.permitAll()
-			);
+			)
+			// 예외 처리
+			.exceptionHandling(handler -> handler
+                .accessDeniedPage("/admin/access-denied")		// 권한 부족 시 이동할 전용 안내 페이지
+            );
 		
 		return http.build();
 	}

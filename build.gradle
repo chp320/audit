@@ -79,6 +79,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
     // 추가 식별 라이브러리 추가
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 //    implementation 'org.apache.httpcomponents.client5:httpclient5'
 //    implementation 'org.apache.httpcomponents.client5:httpclient5:5.6.0'
 	// libs 폴더 안의 모든 jar 파일을 IDE 런타임 클래스패스로 강제 로드

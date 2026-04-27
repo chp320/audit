@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>접근 권한 없음</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        
+        /* 공통 네비게이션 바 스타일 */
+        .navbar { background-color: #333; overflow: hidden; padding: 14px 20px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .navbar a { color: #f2f2f2; text-decoration: none; padding: 10px; font-weight: bold; }
+        .navbar a:hover { background-color: #ddd; color: black; border-radius: 4px; }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .logout-btn { background-color: #f44336; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .logout-btn:hover { background-color: #d32f2f; }
+        
+        /* 에러 메시지 박스 스타일 */
+        .error-container { 
+            max-width: 600px; 
+            margin: 50px auto; 
+            background-color: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            text-align: center;
+            border-top: 5px solid #f44336;
+        }
+        .error-title { color: #f44336; font-size: 24px; margin-bottom: 10px; }
+        .error-desc { color: #555; line-height: 1.6; margin-bottom: 30px; }
+        .back-btn { 
+            background-color: #4CAF50; 
+            color: white; 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+        }
+        .back-btn:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="/admin/audit">감사 이력 조회 (메인)</a>
+            <a href="/admin/accounts" sec:authorize="hasRole('ADMIN')">관리자 계정 관리</a>
+        </div>
+        <div class="nav-right">
+            <span>환영합니다, <b th:text="${currentUsername != null ? currentUsername : '사용자'}"></b>님</span>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="logout-btn">로그아웃</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="error-container">
+        <h2 class="error-title">⛔ 접근이 거부되었습니다 (403)</h2>
+        <p class="error-desc">
+            현재 로그인하신 계정(<b><span th:text="${currentUsername}"></span></b>)은<br>
+            해당 페이지를 열람하거나 기능을 실행할 권한이 없습니다.<br><br>
+            최고 관리자(ADMIN) 권한이 필요한 메뉴입니다.
+        </p>
+        <a href="/admin/audit" class="back-btn">메인 대시보드로 돌아가기</a>
+    </div>
+
+</body>
+</html>
