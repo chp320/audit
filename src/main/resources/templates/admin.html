@@ -12,28 +12,23 @@
 </head>
 <body>
     <h2>GitLab 계정 정리 감사(Audit) 로그</h2>
-    <table>
+    <table border="1">
         <thead>
             <tr>
-                <th>실행 시각</th>
-                <th>GitLab ID</th>
-                <th>사용자명</th>
-                <th>마지막 접속일</th>
-                <th>LDAP 존재 여부</th>
-                <th>삭제 대상 여부</th>
-                <th>실제 삭제 실행</th>
+				<th>변경 일시 (DB 자동생성)</th>
+                <th>배치 실행일자</th>
+                <th>계정명</th>
+                <th>최종 상태</th>
+                <th>상세 사유</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="audit : ${audits}">
+				<td th:text="${#temporals.format(audit.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${audit.executionDate}"></td>
-                <td th:text="${audit.gitlabId}"></td>
                 <td th:text="${audit.username}"></td>
-                <td th:text="${audit.lastActivityOn}"></td>
-                <td th:text="${audit.ldapExists}"></td>
-                <td th:text="${audit.deleteTarget}"></td>
-                <td th:text="${audit.deleteExecuted}"></td>
-				<td th:text="${#temporals.format(audit.createAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${audit.finalAction}"></td>
+                <td th:text="${audit.errorMessage}"></td>
             </tr>
         </tbody>
     </table>
