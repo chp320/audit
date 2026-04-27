@@ -47,7 +47,7 @@
 
     <div class="content-box">
         <h3 style="margin-top: 0;">신규 관리자 등록</h3>
-        <form action="/admin/accounts" method="post">
+		<form th:action="@{/admin/accounts}" method="post">
             <label for="username"><b>아이디: </b></label>
             <input type="text" id="username" name="username" required style="padding: 6px; margin-right: 15px;">
             

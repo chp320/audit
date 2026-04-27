@@ -12,6 +12,9 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class AdminUser {
+	
+	// 기본 생성자
+	public AdminUser() {}
 
 	// Entity
 	@Id
